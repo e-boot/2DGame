@@ -1,7 +1,7 @@
-package eboot.game.game;
+package eboot.game;
 
 import eboot.game.keyboard.Keyboard;
-import eboot.game.platform.PlatformFactory;
+import eboot.game.level.Level;
 import eboot.game.platform.Platform;
 import eboot.game.player.Player;
 
@@ -12,10 +12,9 @@ import java.awt.event.ActionListener;
 
 public class Game extends JPanel implements ActionListener {
 
-    /* Properties */
-    private Timer timer;
     private Player player;
-    private Platform[] platforms;
+    private Platform[] platforms ;
+    private Level level;
     public boolean gameOver;
 
 
@@ -25,9 +24,10 @@ public class Game extends JPanel implements ActionListener {
         setBackground(Color.CYAN);
 
         player = new Player(100, 500);
-        spawnPlatforms();
+        level = new Level(1);
 
-        timer = new Timer(20, this);
+        /* Properties */
+        Timer timer = new Timer(20, this);
         timer.start();
 
         setFocusable(true);
@@ -36,15 +36,7 @@ public class Game extends JPanel implements ActionListener {
     }
 
 
-    private void spawnPlatforms() {
-        platforms = new Platform[]{
-                PlatformFactory.createPlatform(50, 550, 100, 5),
-                PlatformFactory.createPlatform(200, 450, 50, 5),
-                PlatformFactory.createPlatform(300, 350, 50, 5),
-                PlatformFactory.createPlatform(400, 250, 100, 5),
-        };
-
-    }
+  
 
 
     @Override
@@ -52,9 +44,7 @@ public class Game extends JPanel implements ActionListener {
             super.paintComponent(g);
             if(!gameOver){
                 player.draw(g);
-                for(Platform platform: platforms){
-                    platform.draw(g);
-                }
+                level.draw(g);
             }else {
               paintGameOverScreen(g);
             }
@@ -87,7 +77,8 @@ public class Game extends JPanel implements ActionListener {
     /* helper method */
     private void checkCollisions(){
             boolean onPlatform = false;
-            for (Platform platform : platforms) {
+            Platform[] platformsLevel = level.getPlatforms();
+            for (Platform platform : platformsLevel) {
                 if (player.intersects(platform)) {
                     player.landOnPlatform(platform);
                     onPlatform = true;

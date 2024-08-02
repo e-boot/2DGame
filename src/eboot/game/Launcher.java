@@ -1,7 +1,5 @@
 package eboot.game;
 
-import eboot.game.game.Game;
-
 import javax.swing.*;
 
 public class Launcher {

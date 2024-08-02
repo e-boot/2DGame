@@ -1,6 +1,6 @@
 package eboot.game.keyboard;
 
-import eboot.game.game.Game;
+import eboot.game.Game;
 import eboot.game.player.Player;
 
 import java.awt.event.KeyEvent;
